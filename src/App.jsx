@@ -10,7 +10,7 @@ function App() {
 
   const handlebutton=()=>{
     setstatus(true)
-    axios.post("https://bulkmail-backend-1-osr5.onrender.com/sendmail",{input:input,EmailList:EmailList})
+    axios.post("https://bulkmail-backend-7xqp.onrender.com/sendmail",{input:input,EmailList:EmailList})
     .then((data)=>{
       if(data.data === true){
         alert("email sent successfully")
