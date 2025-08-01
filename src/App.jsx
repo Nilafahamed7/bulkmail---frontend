@@ -47,20 +47,21 @@ function App() {
     </div>
 
     <div className="bg-gray-800 text-white text-center p-4">
-      <h1 className="text-2xl font-medium">Streamline your communication — send multiple emails at once to boost your business efficiency.</h1>
+      <h1 className="text-xl sm:text-2xl font-medium">Streamline your communication — send multiple emails at once to boost your business efficiency.</h1>
     </div>
 
     <div className="bg-gray-700 text-white text-center p-4">
-      <h1 className="text-2xl font-medium">Drag and Drop</h1>
+      <h1 className="text-xl sm:text-2xl font-medium">Drag and Drop</h1>
     </div>
 
     <div className="bg-gray-500 flex flex-col items-center justify-center p-4">
       <textarea onChange={(e)=>{
         setinput(e.target.value)
-      }} className="w-[80%] h-40" placeholder="Type your email"></textarea>
+      }} className="w-[60%] h-40" placeholder="Type your email"></textarea>
 
-      <input onChange={handleEmail} className="mt-4 text-white border-4 border-dashed p-4" type="file" />
-      <p className="mt-3 text-white text-xl">Total no of emails in the selected file : {EmailList.length}</p>
+      <input onChange={handleEmail} className="mt-4 text-white border-4 border-dashed p-4 w-[75%] sm:w-fit" type="file" />
+
+      <p className="mt-3 text-white sm:text-xl">Total no of emails in the selected file : {EmailList.length}</p>
       <button onClick={handlebutton} className="bg-gray-950 text-white px-2 py-1 rounded-md mt-2">{status? "sending":"send"}</button>
     </div>
 
