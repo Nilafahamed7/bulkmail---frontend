@@ -4,35 +4,35 @@ import * as XLSX from "xlsx"
 
 function App() {
 
-  const [input,setinput] = useState("")
-  const [status,setstatus] = useState(false)
-  const [EmailList,setEmailList] = useState([])
+  const [input, setinput] = useState("")
+  const [status, setstatus] = useState(false)
+  const [EmailList, setEmailList] = useState([])
 
-  const handlebutton=()=>{
+  const handlebutton = () => {
     setstatus(true)
-    axios.post("https://bulkmail-backend-7xqp.onrender.com/sendmail",{input:input,EmailList:EmailList})
-    .then((data)=>{
-      if(data.data === true){
-        alert("email sent successfully")
-        setstatus(false)
-      }
-      else{
-        alert("email sent failed")
-      }
-    })
+    axios.post("https://bulkmail-backend-7xqp.onrender.com/sendmail", { input: input, EmailList: EmailList })
+      .then((data) => {
+        if (data.data === true) {
+          alert("email sent successfully")
+          setstatus(false)
+        }
+        else {
+          alert("email sent failed")
+        }
+      })
   }
 
-  const handleEmail=(e)=>{
+  const handleEmail = (e) => {
     const file = e.target.files[0]
     const reader = new FileReader()
 
-    reader.onload = (e)=>{
+    reader.onload = (e) => {
       const data = e.target.result
-      const workbook = XLSX.read(data,{type:"binary"})
+      const workbook = XLSX.read(data, { type: "binary" })
       const SheetName = workbook.SheetNames[0]
       const worksheet = workbook.Sheets[SheetName]
-      const emaillist = XLSX.utils.sheet_to_json(worksheet,{header:"A"})
-      const totalemail = emaillist.map((item)=>{
+      const emaillist = XLSX.utils.sheet_to_json(worksheet, { header: "A" })
+      const totalemail = emaillist.map((item) => {
         return item.A
       })
       setEmailList(totalemail)
@@ -40,34 +40,66 @@ function App() {
     reader.readAsBinaryString(file)
   }
 
-  return ( 
+  return (
     <>
-    <div className="bg-gray-900 text-white text-center p-4">
-      <h1 className="text-2xl font-medium">BulkMail</h1>
-    </div>
+      <header className="bg-gray-900 text-white p-6 shadow-md">
+        <h1 className="text-3xl font-bold text-center">📧 BulkMail</h1>
+        <p className="text-center mt-2 text-gray-300">
+          Send professional emails to your audience with ease.
+        </p>
+      </header>
 
-    <div className="bg-gray-800 text-white text-center p-4">
-      <h1 className="text-xl sm:text-2xl font-medium">Streamline your communication — send multiple emails at once to boost your business efficiency.</h1>
-    </div>
+      <section className="bg-gray-800 text-white py-10 px-6 text-center">
+        <h2 className="text-2xl sm:text-3xl font-semibold mb-3">
+          Streamline Your Communication
+        </h2>
+        <p className="text-lg text-gray-300 max-w-2xl mx-auto">
+          Upload your Excel email list, write a message, and hit send. It's that simple.
+        </p>
+      </section>
 
-    <div className="bg-gray-700 text-white text-center p-4">
-      <h1 className="text-xl sm:text-2xl font-medium">Drag and Drop</h1>
-    </div>
+      <main className="bg-gray-100 min-h-screen flex flex-col items-center px-4 py-10 space-y-6">
+        <textarea
+          onChange={(e) => setinput(e.target.value)}
+          className="w-full sm:w-3/4 md:w-1/2 h-40 p-4 border rounded-md resize-none shadow focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          placeholder="Type your email content here..."
+        ></textarea>
 
-    <div className="bg-gray-500 flex flex-col items-center justify-center p-4">
-      <textarea onChange={(e)=>{
-        setinput(e.target.value)
-      }} className="w-[60%] h-40" placeholder="Type your email"></textarea>
+        <div className="w-full sm:w-3/4 md:w-1/2">
+          <label
+            htmlFor="file-upload"
+            className="flex items-center justify-center w-full p-6 border-2 border-dashed border-gray-400 rounded-md cursor-pointer bg-white hover:bg-gray-50 transition"
+          >
+            <input
+              id="file-upload"
+              type="file"
+              className="hidden"
+              onChange={handleEmail} />
+            <span className="text-gray-600 font-medium">
+              📁 Click to upload Excel file with emails
+            </span>
+          </label>
+        </div>
 
-      <input onChange={handleEmail} className="mt-4 text-white border-4 border-dashed p-4 w-[75%] sm:w-fit" type="file" />
+        <p className="text-gray-700">
+          📬 Total emails loaded: <strong>{EmailList.length}</strong>
+        </p>
 
-      <p className="mt-3 text-white sm:text-xl">Total no of emails in the selected file : {EmailList.length}</p>
-      <button onClick={handlebutton} className="bg-gray-950 text-white px-2 py-1 rounded-md mt-2">{status? "sending":"send"}</button>
-    </div>
+        <button
+          onClick={handlebutton}
+          className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-2 rounded-md transition shadow disabled:opacity-50"
+          disabled={status}
+        >
+          {status ? "Sending..." : "Send Emails"}
+        </button>
+      </main>
 
-    <div className="bg-gray-400 p-20"></div>
-    <div className="bg-gray-200 p-20"></div>
-      
+      <footer className="bg-gray-900 text-white text-center p-6 mt-10">
+        <p className="text-sm text-gray-400">
+          © {new Date().getFullYear()} BulkMail. All rights reserved.
+        </p>
+      </footer>
+
     </>
   )
 }
