@@ -10,7 +10,7 @@ function App() {
 
   const handlebutton = () => {
     setstatus(true)
-    axios.post("https://bulkmail-backend-7xqp.onrender.com/sendmail", { input: input, EmailList: EmailList })
+    axios.post("https://bulkmail-backend-d8yg.onrender.com/sendmail", { input: input, EmailList: EmailList })
       .then((data) => {
         if (data.data === true) {
           alert("email sent successfully")
@@ -41,7 +41,8 @@ function App() {
   }
 
   return (
-    <>
+
+    <div>
       <header className="bg-gray-900 text-white p-6 shadow-md">
         <h1 className="text-3xl font-bold text-center">📧 BulkMail</h1>
         <p className="text-center mt-2 text-gray-300">
@@ -58,23 +59,22 @@ function App() {
         </p>
       </section>
 
-      <main className="bg-gray-100 min-h-screen flex flex-col items-center px-4 py-10 space-y-6">
+      <main className="bg-gray-100 min-h-screen  flex flex-col items-center px-4 py-10 space-y-6">
         <textarea
           onChange={(e) => setinput(e.target.value)}
           className="w-full sm:w-3/4 md:w-1/2 h-40 p-4 border rounded-md resize-none shadow focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          placeholder="Type your email content here..."
-        ></textarea>
+          placeholder="Type your email content here..."></textarea>
 
         <div className="w-full sm:w-3/4 md:w-1/2">
           <label
             htmlFor="file-upload"
-            className="flex items-center justify-center w-full p-6 border-2 border-dashed border-gray-400 rounded-md cursor-pointer bg-white hover:bg-gray-50 transition"
-          >
+            className="flex items-center justify-center w-full p-6 border-2 border-dashed border-gray-400 rounded-md cursor-pointer bg-white hover:bg-gray-50 transition">
             <input
               id="file-upload"
               type="file"
               className="hidden"
-              onChange={handleEmail} />
+              onChange={handleEmail}/>
+
             <span className="text-gray-600 font-medium">
               📁 Click to upload Excel file with emails
             </span>
@@ -88,8 +88,7 @@ function App() {
         <button
           onClick={handlebutton}
           className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-2 rounded-md transition shadow disabled:opacity-50"
-          disabled={status}
-        >
+          disabled={status}>
           {status ? "Sending..." : "Send Emails"}
         </button>
       </main>
@@ -99,8 +98,8 @@ function App() {
           © {new Date().getFullYear()} BulkMail. All rights reserved.
         </p>
       </footer>
+    </div>
 
-    </>
   )
 }
 
